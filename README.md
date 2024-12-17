@@ -11,6 +11,12 @@ Key features:
 
 ---
 
+## **Support**
+
+[![Support via Patreon](https://img.shields.io/badge/Support%20on-Patreon-orange?style=for-the-badge&logo=patreon)](https://www.patreon.com/user?u=52683080)
+
+---
+
 ## **How It Works**
 
 1. Place `.strm` files in a source directory. Each `.strm` file contains a single URL pointing to a video/audio stream.
@@ -27,12 +33,13 @@ Ensure the following dependencies are installed:
 - **FUSE3**: For the FUSE filesystem interface.
 - **libcurl**: For streaming data from URLs.
 - **GCC/G++**: Compiler for C++17 code.
+- **make**: Build tool for compiling the project.
 
 On Ubuntu/Debian-based systems, you can install the dependencies:
 
 ```bash
 sudo apt update
-sudo apt install -y fuse3 libfuse3-dev libcurl4-openssl-dev g++ pkg-config
+sudo apt install -y fuse3 libfuse3-dev libcurl4-openssl-dev g++ pkg-config make
 ```
 
 ---
@@ -46,13 +53,21 @@ git clone https://github.com/yourusername/mirrored-fuse.git
 cd mirrored-fuse
 ```
 
-Build the project using `g++`:
+### Build the Project
 
 ```bash
-g++ -Wall -O2 -std=c++17 `pkg-config --cflags fuse3 libcurl` -o mirrored_fuse mirrored_fuse.cpp `pkg-config --libs fuse3 libcurl`
+make
 ```
 
-This will produce an executable named `mirrored_fuse`.
+### Install the Project
+
+To install the compiled binary to `/usr/local/bin`, run:
+
+```bash
+sudo make install
+```
+
+This will allow you to run `mirrored_fuse` from anywhere.
 
 ---
 
@@ -63,7 +78,7 @@ This will produce an executable named `mirrored_fuse`.
 Run the following command to mount the filesystem:
 
 ```bash
-./mirrored_fuse <source_directory> <mount_point>
+mirrored_fuse <source_directory> <mount_point>
 ```
 
 - **`<source_directory>`**: Directory containing `.strm` files.
@@ -73,7 +88,7 @@ Run the following command to mount the filesystem:
 
 ```bash
 mkdir ~/strm_source ~/fuse_mount
-./mirrored_fuse ~/strm_source ~/fuse_mount
+mirrored_fuse ~/strm_source ~/fuse_mount
 ```
 
 - Place `.strm` files in `~/strm_source`.
@@ -120,7 +135,7 @@ ffplay ~/fuse_mount/video.ts
 You can pass additional FUSE options when mounting. For example, to enable debug output:
 
 ```bash
-./mirrored_fuse ~/strm_source ~/fuse_mount -o debug
+mirrored_fuse ~/strm_source ~/fuse_mount -o debug
 ```
 
 ---
@@ -148,14 +163,6 @@ This project is licensed under the **MIT License**. See the `LICENSE` file for d
 
 ---
 
-## **Contact**
-
-For questions or suggestions, feel free to open an issue or reach out via:
-
-- GitHub Issues: [https://github.com/yourusername/mirrored-fuse/issues](https://github.com/yourusername/mirrored-fuse/issues)
-- Email: yourname@example.com
-
----
 
 ## **Acknowledgments**
 
